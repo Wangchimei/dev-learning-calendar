@@ -10,13 +10,13 @@ Vue.use(vueTextareaAutosize);
 Vue.config.productionTip = false;
 
 firebase.initializeApp({
-  apiKey: 'AIzaSyAqX0IiiIpCxyPc3ZJBuE6F3_psu0wbvk0',
-  authDomain: 'learning-map-00000.firebaseapp.com',
-  databaseURL: 'https://learning-map-00000.firebaseio.com',
-  projectId: 'learning-map-00000',
-  storageBucket: 'learning-map-00000.appspot.com',
-  messagingSenderId: '389145605423',
-  appId: '1:389145605423:web:1db809bfd17816ff221dda',
+  apiKey: 'AIzaSyCDJONmWvZETjCCf5lMRjTVp8fukOs2xc0',
+  authDomain: 'dev-learning-plan.firebaseapp.com',
+  databaseURL: 'https://dev-learning-plan.firebaseio.com',
+  projectId: 'dev-learning-plan',
+  storageBucket: 'dev-learning-plan.appspot.com',
+  messagingSenderId: '132619820768',
+  appId: '1:132619820768:web:8604c2eabb62c38479fa85',
 });
 
 export const db = firebase.firestore();
