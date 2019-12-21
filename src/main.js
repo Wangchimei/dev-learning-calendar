@@ -9,15 +9,7 @@ Vue.use(vueTextareaAutosize);
 
 Vue.config.productionTip = false;
 
-firebase.initializeApp({
-  apiKey: 'AIzaSyCDJONmWvZETjCCf5lMRjTVp8fukOs2xc0',
-  authDomain: 'dev-learning-plan.firebaseapp.com',
-  databaseURL: 'https://dev-learning-plan.firebaseio.com',
-  projectId: 'dev-learning-plan',
-  storageBucket: 'dev-learning-plan.appspot.com',
-  messagingSenderId: '132619820768',
-  appId: '1:132619820768:web:8604c2eabb62c38479fa85',
-});
+firebase.initializeApp({});
 
 export const db = firebase.firestore();
 
