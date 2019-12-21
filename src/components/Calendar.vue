@@ -201,6 +201,14 @@ export default {
         });
       this.currentlyEditing = null;
     },
+    async deleteEvent(event) {
+      await db
+        .collection('setEvent')
+        .doc(event)
+        .delete();
+      this.selectedOpen = false;
+      this.getEvents();
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
