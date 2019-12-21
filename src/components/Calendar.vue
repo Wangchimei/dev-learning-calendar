@@ -73,21 +73,26 @@
                 label="Color"
                 placeholder="use default or click to custimize"
               ></v-select>
-              <v-color-picker
-                hide-canvas
-                hide-inputs
-                v-model="color"
-                type="color hex"
-              ></v-color-picker>
+              <p class="text-center">
+                <v-color-picker
+                  flat
+                  hide-canvas
+                  hide-inputs
+                  v-model="color"
+                  type="color hex"
+                  width="450"
+                ></v-color-picker>
+              </p>
               <v-card-actions>
                 <v-spacer></v-spacer>
                 <v-btn
                   outlined
+                  block
                   class="mt-4"
                   type="submit"
                   @click.stop="dialog = false"
                 >
-                  Create<v-icon right>mdi-upload</v-icon>
+                  トピック追加<v-icon right>mdi-upload</v-icon>
                 </v-btn>
               </v-card-actions>
             </v-form>
@@ -146,12 +151,22 @@
               <v-spacer></v-spacer>
               <v-btn
                 icon
+                tile
+                block
                 v-if="currentlyEditing !== selectedEvent.id"
                 @click.prevent="editEvent(selectedEvent)"
               >
+                <span>編集</span>
                 <v-icon>mdi-pencil</v-icon>
               </v-btn>
-              <v-btn icon v-else @click.prevent="updateEvent(selectedEvent)">
+              <v-btn
+                icon
+                tile
+                block
+                v-else
+                @click.prevent="updateEvent(selectedEvent)"
+              >
+                <span>保存</span>
                 <v-icon>mdi-content-save</v-icon>
               </v-btn>
             </v-card-actions>
@@ -180,6 +195,29 @@ export default {
     start: null,
     end: null,
     color: '#1976D2',
+    colorOptions: [
+      { text: 'Dark Blue', value: '#1976D2' },
+      { text: 'Red', value: '#F44336' },
+      { text: 'Pink', value: '#E91E63' },
+      { text: 'Purple', value: '#9C27B0' },
+      { text: 'Deep Purple', value: '#673AB7' },
+      { text: 'Indigo', value: '#3F51B5' },
+      { text: 'Blue', value: '#2196F3' },
+      { text: 'Light Blue', value: '#03A9F4' },
+      { text: 'Cyan', value: '#00BCD4' },
+      { text: 'Teal', value: '#009688' },
+      { text: 'Green', value: '#4CAF50' },
+      { text: 'Light Green', value: '#8BC34A' },
+      { text: 'Lime', value: '#CDDC39' },
+      { text: 'Amber', value: '#FFC107' },
+      { text: 'Orange', value: '#FF9800' },
+      { text: 'Deep Orange', value: '#FF5722' },
+      { text: 'Brown', value: '#795548' },
+      { text: 'Blue Gray', value: '#607D8B' },
+      { text: 'Gray', value: '#9E9E9E' },
+      { text: 'Dark Grey', value: '#424242' },
+      { text: 'Black', value: '#000' },
+    ],
     currentlyEditing: null,
     selectedEvent: {},
     selectedElement: null,
