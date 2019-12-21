@@ -41,6 +41,60 @@
           </v-menu>
         </v-toolbar>
       </v-sheet>
+
+      <v-dialog v-model="dialog" max-width="500">
+        <v-card>
+          <v-container>
+            <v-form class="px-2 py-1" @submit.prevent="addEvent">
+              <v-text-field
+                v-model="name"
+                type="text"
+                label="Topic(required)"
+              ></v-text-field>
+              <v-text-field
+                v-model="details"
+                type="text"
+                label="Detail"
+              ></v-text-field>
+              <v-text-field
+                v-model="start"
+                type="date"
+                label="Start Date (required)"
+              ></v-text-field>
+              <v-text-field
+                v-model="end"
+                type="date"
+                label="End Date (required)"
+              ></v-text-field>
+              <v-select
+                v-model="color"
+                type="color"
+                :items="colorOptions"
+                label="Color"
+                placeholder="use default or click to custimize"
+              ></v-select>
+              <v-color-picker
+                hide-canvas
+                hide-inputs
+                v-model="color"
+                type="color hex"
+              ></v-color-picker>
+              <v-card-actions>
+                <v-spacer></v-spacer>
+                <v-btn
+                  outlined
+                  class="mt-4"
+                  type="submit"
+                  @click.stop="dialog = false"
+                >
+                  Create<v-icon right>mdi-upload</v-icon>
+                </v-btn>
+              </v-card-actions>
+            </v-form>
+          </v-container>
+        </v-card>
+      </v-dialog>
+
       <v-sheet height="600">
         <v-calendar
           ref="calendar"
@@ -191,6 +245,25 @@ export default {
         events.push(eventData);
       });
       this.events = events;
+    },
+    async addEvent() {
+      if (this.name && this.start && this.end) {
+        await db.collection('setEvent').add({
+          name: this.name,
+          details: this.details,
+          start: this.start,
+          end: this.end,
+          color: this.color,
+        });
+        this.getEvents();
+        this.name = '';
+        this.details = '';
+        this.start = '';
+        this.end = '';
+        this.color = '#1976D2';
+      } else {
+        alert('Oops! There is no topic or time.');
+      }
     },
     async updateEvent(event) {
       await db
