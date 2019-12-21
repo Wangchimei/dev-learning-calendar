@@ -192,6 +192,15 @@ export default {
       });
       this.events = events;
     },
+    async updateEvent(event) {
+      await db
+        .collection('setEvent')
+        .doc(this.currentlyEditing)
+        .update({
+          details: event.details,
+        });
+      this.currentlyEditing = null;
+    },
     viewDay({ date }) {
       this.focus = date;
       this.type = 'day';
@@ -207,6 +216,9 @@ export default {
     },
     next() {
       this.$refs.calendar.next();
+    },
+    editEvent(event) {
+      this.currentlyEditing = event.id;
     },
     showEvent({ nativeEvent, event }) {
       const open = () => {
