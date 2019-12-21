@@ -3,13 +3,16 @@
     <v-col>
       <v-sheet height="64">
         <v-toolbar flat color="white">
+          <v-btn outlined class="mr-4" @click="dialog = true">
+            <v-icon>mdi-plus-box-multiple-outline</v-icon>
+          </v-btn>
           <v-btn outlined class="mr-4" @click="setToday">
             Today
           </v-btn>
           <v-btn fab text small @click="prev">
             <v-icon small>mdi-chevron-left</v-icon>
           </v-btn>
-          <v-btn fab text small @click="next">
+          <v-btn fab text small @click="next" class="mr-4">
             <v-icon small>mdi-chevron-right</v-icon>
           </v-btn>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
@@ -53,33 +56,49 @@
           @click:date="viewDay"
           @change="updateRange"
         ></v-calendar>
+
         <v-menu
           v-model="selectedOpen"
           :close-on-content-click="false"
           :activator="selectedElement"
-          full-width
           offset-x
         >
           <v-card color="grey lighten-4" min-width="350px" flat>
             <v-toolbar :color="selectedEvent.color" dark>
-              <v-btn icon>
-                <v-icon>mdi-pencil</v-icon>
+              <v-btn icon @click="selectedOpen = false">
+                <v-icon>mdi-chevron-left-box</v-icon>
               </v-btn>
               <v-toolbar-title v-html="selectedEvent.name"></v-toolbar-title>
               <v-spacer></v-spacer>
-              <v-btn icon>
-                <v-icon>mdi-heart</v-icon>
-              </v-btn>
-              <v-btn icon>
-                <v-icon>mdi-dots-vertical</v-icon>
+              <v-btn icon @click="deleteEvent(selectedEvent.id)">
+                <v-icon>mdi-delete</v-icon>
               </v-btn>
             </v-toolbar>
             <v-card-text>
-              <span v-html="selectedEvent.details"></span>
+              <form v-if="currentlyEditing !== selectedEvent.id">
+                {{ selectedEvent.details }}
+              </form>
+              <form v-else>
+                <textarea-autosize
+                  v-model="selectedEvent.details"
+                  type="text"
+                  style="width:100%"
+                  :min-height="100"
+                  placeholder="add note"
+                ></textarea-autosize>
+              </form>
             </v-card-text>
             <v-card-actions>
-              <v-btn text color="secondary" @click="selectedOpen = false">
-                Cancel
+              <v-spacer></v-spacer>
+              <v-btn
+                icon
+                v-if="currentlyEditing !== selectedEvent.id"
+                @click.prevent="editEvent(selectedEvent)"
+              >
+                <v-icon>mdi-pencil</v-icon>
+              </v-btn>
+              <v-btn icon v-else @click.prevent="updateEvent(selectedEvent)">
+                <v-icon>mdi-content-save</v-icon>
               </v-btn>
             </v-card-actions>
           </v-card>
@@ -206,7 +225,6 @@ export default {
       nativeEvent.stopPropagation();
     },
     updateRange({ start, end }) {
-      // You could load events from an outside source (like database) now that we have the start and end dates on the calendar
       this.start = start;
       this.end = end;
     },
